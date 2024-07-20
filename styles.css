@@ -1,0 +1,162 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.background-hearts span {
+  position: absolute;
+  color: pink; /* Set the color if you're not using emoji */
+  font-size: 2rem; /* Adjust size as needed */
+}
+
+.background-hearts span:nth-child(1) { top: 10%; left: 20%; }
+.background-hearts span:nth-child(2) { top: 15%; left: 75%; }
+.background-hearts span:nth-child(3) { top: 80%; left: 50%; }
+.background-hearts span:nth-child(4) { top: 40%; left: 90%; }
+.background-hearts span:nth-child(5) { top: 60%; left: 25%; }
+.background-hearts span:nth-child(6) { top: 20%; left: 45%; }
+.background-hearts span:nth-child(7) { top: 75%; left: 5%; }
+.background-hearts span:nth-child(8) { top: 80%; left: 70%; }
+
+body {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  background-color: #dcdcdc;
+}
+
+.wrapper {
+  height: 200px;
+  width: 300px;
+  background-color: #ffb3c6;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.lid {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-right: 150px solid transparent;
+  border-bottom: 100px solid transparent;
+  border-left: 150px solid transparent;
+  transform-origin: top;
+  transition: transform 0.25s linear;
+}
+
+/* Lid when closed */
+.lid.one {
+  border-top: 100px solid #ffb3c6;
+  transform: rotateX(0deg);
+  z-index: 3;
+  transition-delay: 0.75s;
+}
+
+/* Lid when opened */
+.lid.two {
+  border-top: 100px solid #ffb3c6;
+  transform: rotateX(90deg);
+  z-index: 1;
+  transition-delay: 0.5s;
+}
+
+.envelope {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border-top: 100px solid transparent;
+  border-right: 150px solid #ffe5ec;
+  border-bottom: 100px solid #ffe5ec;
+  border-left: 150px solid #ffc2d1;
+  z-index: 3;
+}
+
+.letter {
+  position: relative;
+  top: 0;
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  z-index: 2;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: transform 0.5s, width 0.5s, height 0.5s;
+  transform: translateY(0%);
+}
+
+
+.letter p {
+  text-align: left;
+  font-size: 8.5px;
+  line-height: 1.5;
+  color: #3B4049;
+  opacity: 0;
+  transition: opacity 0.5s ease 1.5s; /* Adjust if necessary based on your animation timing */
+}
+
+.wrapper:hover .letter p {
+  opacity: 1; /* Make text visible after the hover delay */
+}
+
+/* Hover effects on the wrapper to manage lids and timing */
+.wrapper:hover .lid.one {
+  transform: rotateX(90deg);
+  transition-delay: 0s;
+}
+
+.wrapper:hover .lid.two {
+  transform: rotateX(180deg);
+  transition-delay: 0.25s;
+}
+
+.wrapper:hover .letter {
+  transform: translateY(-100%); /* Move out fully */
+  transition: transform 0.5s; /* Smoothly move out */
+  transition-delay: 0.75s; /* Ensure it happens after the lid opens */
+}
+
+/* Hover effects */
+.wrapper:hover .envelope {
+  z-index: 1; /* Lower z-index on hover to allow the letter to come on top */
+  transition-delay: 1s;
+}
+
+/* Delay further transformations */
+.wrapper:hover .letter {
+  animation: enlargeLetter 0.5s forwards; /* Animation to handle enlargement */
+  animation-delay: 1.5s; /* Wait before starting enlargement */
+}
+
+@keyframes enlargeLetter {
+  from {
+    transform: translateY(-50%) scale(1); /* Start from the middle of the screen, normal size */
+    width: 80%; 
+    height: 80%;
+  }
+  to {
+    transform: translateY(-25%) scale(1.5); /* Enlarge while in the middle */
+    width: 140%; /* Enlarged width */
+    height: 200%; /* Enlarged height */
+  }
+}
+
+/* Contract and retract when hover is removed */
+.wrapper:not(:hover) .letter {
+  transform: translateY(0%) scale(1); /* Move back inside and shrink to normal */
+  width: 80%;  /* Return to normal width */
+  height: 80%; /* Return to normal height */
+  transition-delay: 0s; /* No delay on returning to normal */
+}
+
+
